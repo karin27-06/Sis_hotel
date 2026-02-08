@@ -13,7 +13,7 @@
           Lo Que Dicen Nuestros Huéspedes
         </h2>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Miles de clientes satisfechos comparten su experiencia en Hotel Paraíso
+          Miles de clientes satisfechos comparten su experiencia en Hotel Nuevo
         </p>
       </div>
 

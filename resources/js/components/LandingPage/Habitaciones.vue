@@ -36,7 +36,7 @@
             
             <!-- Badge de precio -->
             <div class="absolute top-4 right-4 bg-amber-500 text-white px-4 py-2 rounded-full font-bold shadow-lg">
-              ${{ room.precio }}<span class="text-sm font-normal">/noche</span>
+              S/.{{ room.precio }}<span class="text-sm font-normal">/noche</span>
             </div>
 
             <!-- Badge de popularidad (opcional) -->
@@ -68,7 +68,7 @@
 
             <!-- Botón -->
             <button 
-              @click="seleccionarHabitacion(room)"
+              @click="seleccionarHabitacion()"
               class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 
                      hover:from-amber-600 hover:to-amber-700 text-white px-6 py-3 rounded-lg 
                      shadow-md hover:shadow-lg transition-all duration-300 font-semibold group/btn"
@@ -207,8 +207,8 @@ const beneficios = [
   },
 ];
 
-const seleccionarHabitacion = (room: any) => {
+const seleccionarHabitacion = () => {
   // Redirigir a la sección de reservas con la habitación seleccionada
-  window.location.href = `#reservas?room=${encodeURIComponent(room.nombre)}`;
+  window.location.href = `#contacto`;
 };
 </script>

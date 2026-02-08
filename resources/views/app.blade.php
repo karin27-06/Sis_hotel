@@ -32,7 +32,7 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="icon" href="{{ asset('imagenes/access/logis12.jpg') }}" type="image/jpg">
+        <link rel="icon" href="{{ asset('imagenes/access/logoh.jpg') }}" type="image/jpg">
 
         @routes
         @vite(['resources/js/app.ts'])

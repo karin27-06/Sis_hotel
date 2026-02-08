@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import FloatingConfigurator from '@/components/FloatingConfigurator.vue';
-import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import Password from 'primevue/password';
 import Checkbox from 'primevue/checkbox';
@@ -8,6 +7,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Message from 'primevue/message';
 import InlineMessage from 'primevue/inlinemessage';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 
 defineProps({
     status: String,
@@ -45,7 +45,15 @@ const submit = () => {
 
   <div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen w-full px-4 sm:px-6">
 
-    <div class="w-full max-w-4xl bg-surface-0 dark:bg-surface-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+<div class="w-full max-w-4xl bg-surface-0 dark:bg-surface-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative">
+      <!-- Botón Regresar flotante -->
+        <Link
+            href="/"
+            class="absolute top-6 left-6 z-20 flex items-center gap-2 bg-white/90 dark:bg-surface-800 backdrop-blur-md px-4 py-2 rounded-full shadow-lg text-surface-900 dark:text-surface-0 hover:bg-white transition"
+        >
+            <i class="pi pi-arrow-left"></i>
+            Regresar
+        </Link>
 
       <!-- Sección de imagen -->
       <div class="hidden md:block w-1/2 relative">

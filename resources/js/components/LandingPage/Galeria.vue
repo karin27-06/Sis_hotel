@@ -13,7 +13,7 @@
           Descubre Nuestras Instalaciones
         </h2>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Una vista previa de la experiencia que te espera en Hotel Paraíso
+          Una vista previa de la experiencia que te espera en Hotel Nuevo
         </p>
       </div>
 

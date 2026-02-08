@@ -6,9 +6,9 @@
         <!-- Columna 1: Información del hotel -->
         <div>
           <div class="mb-6 flex items-center gap-3">
-            <img src="/imagenes/hotel-logo-white.png" alt="Hotel Logo" class="h-12 w-12" />
+            <img src="/imagenes/LigthL.png" alt="Hotel Logo" class="h-12 w-12" />
             <div>
-              <h3 class="text-xl font-bold text-white">Hotel Paraíso</h3>
+              <h3 class="text-xl font-bold text-white">Hotel Nuevo</h3>
               <p class="text-xs text-amber-400">Luxury & Comfort</p>
             </div>
           </div>
@@ -87,7 +87,7 @@
             </div>
             <div class="flex items-start gap-3">
               <Mail class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-              <p class="text-sm">reservas@hotelparaiso.com</p>
+              <p class="text-sm">reservas@hotelnuevo.com</p>
             </div>
           </div>
 
@@ -158,7 +158,7 @@
     <div class="border-t border-gray-700">
       <div class="mx-auto max-w-[1400px] px-6 py-6">
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-          <p>© 2025 Hotel Paraíso. Todos los derechos reservados.</p>
+          <p>© 2025 Hotel Nuevo. Todos los derechos reservados.</p>
           <div class="flex gap-6">
             <a href="#" class="hover:text-amber-400 transition-colors">Términos y Condiciones</a>
             <a href="#" class="hover:text-amber-400 transition-colors">Política de Privacidad</a>

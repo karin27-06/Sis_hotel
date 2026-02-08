@@ -87,7 +87,7 @@
               width="100%"
               height="100%"
               style="border:0;"
-              allowfullscreen=""
+              allowfullscreen
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
               class="grayscale hover:grayscale-0 transition-all duration-300"
@@ -305,10 +305,10 @@ const contactos = [
   { 
     title: 'Correo Electrónico', 
     icon: Mail, 
-    info: '<p><a href="mailto:reservas@hotelparaiso.com" class="hover:text-amber-600 dark:hover:text-amber-400 transition">reservas@hotelparaiso.com</a></p><p><a href="mailto:info@hotelparaiso.com" class="hover:text-amber-600 dark:hover:text-amber-400 transition">info@hotelparaiso.com</a></p>',
+    info: '<p><a href="mailto:reservas@hotelnuevo.com" class="hover:text-amber-600 dark:hover:text-amber-400 transition">reservas@hotelnuevo.com</a></p><p><a href="mailto:info@hotelnuevo.com" class="hover:text-amber-600 dark:hover:text-amber-400 transition">info@hotelnuevo.com</a></p>',
     action: {
       text: 'Enviar email',
-      link: 'mailto:reservas@hotelparaiso.com'
+      link: 'mailto:reservas@hotelnuevo.com'
     }
   },
   { 

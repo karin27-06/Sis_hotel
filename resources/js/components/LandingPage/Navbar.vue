@@ -4,18 +4,18 @@
       <!-- Logo -->
       <a href="#inicio" class="flex items-center space-x-3 group">
         <div class="relative">
-          <img :src="logoSrc" alt="Hotel Logo" class="h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-110" />
+<img :src="logoSrc" class="h-16 w-16 object-contain" />
         </div>
         <div class="flex flex-col">
           <span class="text-xl font-bold text-amber-600 dark:text-amber-400 tracking-wide">
-            Hotel Paraíso
+            Hotel Nuevo
           </span>
           <span class="text-xs text-gray-500 dark:text-gray-400">Luxury & Comfort</span>
         </div>
       </a>
 
       <!-- Menú de escritorio -->
-      <div class="hidden items-center space-x-8 md:flex">
+      <div class="hidden items-center space-x-8 lg:flex">
         <NavigationMenu>
           <NavigationMenuList class="flex space-x-1">
             <NavigationMenuItem v-for="link in links" :key="link.text">
@@ -69,7 +69,7 @@
       </div>
 
       <!-- Botón hamburguesa móvil -->
-      <button @click="menuOpen = !menuOpen" class="text-gray-800 dark:text-gray-200 md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">
+      <button @click="menuOpen = !menuOpen" class="text-gray-800 dark:text-gray-200 lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">
         <svg v-if="!menuOpen" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -156,7 +156,7 @@ import {
 const menuOpen = ref<boolean>(false);
 const isDark = ref<boolean>(false);
 
-const logoSrc = computed(() => (isDark.value ? "/imagenes/hotel-logo-white.png" : "/imagenes/hotel-logo.png"));
+const logoSrc = computed(() => (isDark.value ? "/imagenes/DarkL.png" : "/imagenes/LigthL.png"));
 
 onMounted(() => {
   const html = document.documentElement;

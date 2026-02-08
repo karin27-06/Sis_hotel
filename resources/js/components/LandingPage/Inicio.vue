@@ -42,7 +42,7 @@
           </span>
           <br />
           <span class="bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-300 bg-clip-text text-transparent drop-shadow-xl">
-            Hotel Paraíso
+            Hotel Nuevo
           </span>
         </h1>
 
@@ -78,7 +78,7 @@
         <!-- Botones de acción -->
         <div class="flex flex-wrap gap-4">
           <a 
-            href="#reservas" 
+            href="#contacto" 
             class="group flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 
                    hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-full 
                    shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold text-lg
@@ -160,6 +160,7 @@ const heroImages = [
   "/imagenes/hotel-hero-2.jpg",
   "/imagenes/hotel-hero-3.jpg",
   "/imagenes/hotel-hero-4.jpg",
+  "/imagenes/hotel-hero-5.jpg",
 ];
 
 const currentIndex = ref(0);
