@@ -3,11 +3,14 @@
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ConsultasDni;
 use App\Http\Controllers\Api\ConsultasId;
+use App\Http\Controllers\Api\FloorController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\UsuariosController;
 use App\Http\Controllers\Api\SpaceController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Reportes\FloorPDFController;
 use App\Http\Controllers\Reportes\SpacePDFController;
+use App\Http\Controllers\Web\FloorWebController;
 use App\Http\Controllers\Web\SpaceWebController;
 use App\Http\Controllers\Web\UsuarioWebController;
 
@@ -33,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/usuario', [UsuarioWebController::class, 'index'])->name('index.view');
     Route::get('/roles', [UsuarioWebController::class, 'roles'])->name('roles.view');
     Route::get('/datos/dashboard', [DashboardController::class, 'getdatos']);
+    Route::get('/pisos', [FloorWebController::class, 'index'])->name('index.view');
 
     #CONSULTA  => BACKEND
     Route::get('/consulta/{dni}', [ConsultasDni::class, 'consultar'])->name('consultar.dni');
@@ -65,11 +69,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/{id}', [RolesController::class, 'update'])->name('rol.update');
         Route::delete('/{id}', [RolesController::class, 'destroy'])->name('rol.destroy');
     });
+
+    #PISOS -> BACKEND
+    Route::prefix('piso')->group(function () {
+        Route::get('/', [FloorController::class, 'index'])->name('Pisos.index');
+        Route::post('/', [FloorController::class, 'store'])->name('Pisos.store');
+        Route::get('/{floor}', [FloorController::class, 'show'])->name('Pisos.show');
+        Route::put('/{floor}', [FloorController::class, 'update'])->name('Pisos.update');
+        Route::delete('/{floor}', [FloorController::class, 'destroy'])->name('Pisos.destroy');
+    });
     Route::prefix('panel/reports')->group(function () {
 
         #EXPORTACION Y IMPORTACION ESPACIOS
         Route::get('/export-excel-spaces', [SpaceController::class, 'exportExcel'])->name('export-excel-spaces');
         Route::get('/export-pdf-spaces', [SpacePDFController::class, 'exportPDF'])->name('export-pdf-spaces');
+
+        #EXPORTACION Y IMPORTACION PISOS
+        Route::get('/export-excel-floors', [FloorController::class, 'exportExcel'])->name('export-excel-floors');
+        Route::get('/export-pdf-floors', [FloorPDFController::class, 'exportPDF'])->name('export-pdf-floors');
+        // Ruta para importar desde Excel
+        Route::post('/import-excel-floors', [FloorController::class, 'importExcel'])->name('import-excel-floors');
     });
 });
             //RUTAS PARA QUE PASEN EL TEST

@@ -44,6 +44,12 @@ const model = computed<MenuItem[]>(() => [
         ].filter(Boolean) as MenuItem[],
     },
     {
+        label: 'Gestión de Habitaciones',
+        items: [
+            hasPermission('ver pisos') && { label: 'Pisos', icon: 'pi pi-fw pi-list', to: '/pisos' },
+        ].filter(Boolean) as MenuItem[],
+    },
+    {
         label: 'Usuarios y Seguridad',
         items: [
             hasPermission('ver usuarios') && { label: 'Gestión de Usuarios', icon: 'pi pi-fw pi-user-edit', to: '/usuario' },
