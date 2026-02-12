@@ -50,10 +50,10 @@ const downloadingText = ref('')
 
 const startDownload = async (type: 'pdf' | 'excel') => {
   const url = type === 'pdf' 
-    ? '/panel/reports/export-pdf-spaces' 
-    : '/panel/reports/export-excel-spaces'
+    ? '/panel/reports/export-pdf-roomtypes' 
+    : '/panel/reports/export-excel-roomtypes'
 
-  const filename = type === 'pdf' ? 'Espacios.pdf' : 'Espacios.xlsx'
+  const filename = type === 'pdf' ? 'Tipos de habitacion.pdf' : 'Tipos de habitacion.xlsx'
 
   try {
     loading.value = true

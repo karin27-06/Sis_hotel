@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Espacio;
+namespace App\Http\Requests\TipoHabitacion;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSpaceRequest extends FormRequest
+class UpdateRoomTypeRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,7 @@ class UpdateSpaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:150|unique:spaces,name,' . $this->route('space')->id,
+            'name' => 'required|string|max:150|unique:room_types,name,' . $this->route('roomtype')->id,
             'description' => 'nullable|string|max:255',
             'state' => 'required|boolean',
         ];

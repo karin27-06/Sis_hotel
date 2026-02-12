@@ -2,36 +2,36 @@
 
 namespace App\Exports;
 
-use App\Models\Space;
+use App\Models\RoomType;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SpacesExport implements FromCollection, WithHeadings, WithMapping, WithStyles
+class RoomTypesExport implements FromCollection, WithHeadings, WithMapping, WithStyles
 {
     public function collection()
     {
-        return Space::orderBy('id', 'asc')->get(); // Traemos todos los espacios ordenados por ID
+        return RoomType::orderBy('id', 'asc')->get(); // Traemos todos los tipos de habitacion ordenados por ID
     }
 
-    public function map($space): array
+    public function map($roomtype): array
     {
         return [
-            $space->id,
-            $space->name,
-            $space->description,
-            $space->state ? 'Activo' : 'Inactivo',
-            $space->created_at->format('d-m-Y H:i:s'),
-            $space->updated_at->format('d-m-Y H:i:s'),
+            $roomtype->id,
+            $roomtype->name,
+            $roomtype->description,
+            $roomtype->state ? 'Activo' : 'Inactivo',
+            $roomtype->created_at->format('d-m-Y H:i:s'),
+            $roomtype->updated_at->format('d-m-Y H:i:s'),
         ];
     }
 
     public function headings(): array
     {
         return [
-            ['LISTA DE ESPACIOS', '', '', '', '', ''], // Fila 1 con el título
+            ['LISTA DE TIPOS DE HABITACIONES', '', '', '', '', ''], // Fila 1 con el título
             [], // Fila 2 en blanco
             ['ID', 'Nombre', 'Descripción', 'Estado', 'Creación', 'Actualización'], // Fila 3 con encabezados
         ];

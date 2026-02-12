@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Espacio;
+namespace App\Http\Requests\TipoHabitacion;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSpaceRequest extends FormRequest
+class StoreRoomTypeRequest extends FormRequest
 {
     public function authorize(): bool{
         return true;
@@ -13,7 +13,7 @@ class StoreSpaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:150|unique:spaces,name',
+            'name' => 'required|string|max:150|unique:room_types,name',
             'description' => 'nullable|string|max:255',
             'state' => 'required|boolean',
         ];

@@ -2,26 +2,26 @@
 
 namespace App\Policies;
 
-use App\Models\Space;
+use App\Models\RoomType;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class SpacePolicy
+class RoomTypePolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('ver espacios');     
+        return $user->can('ver tipos de habitacion');     
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Space $space): bool
+    public function view(User $user, RoomType $roomtype): bool
     {
-        return $user->can('ver espacios');
+        return $user->can('ver tipos de habitacion');
     }
 
     /**
@@ -29,29 +29,29 @@ class SpacePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('crear espacios');
+        return $user->can('crear tipos de habitacion');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Space $space): bool
+    public function update(User $user, RoomType $roomtype): bool
     {
-        return $user->can('editar espacios');
+        return $user->can('editar tipos de habitacion');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Space $space): bool
+    public function delete(User $user, RoomType $roomtype): bool
     {
-        return $user->can('eliminar espacios');
+        return $user->can('eliminar tipos de habitacion');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Space $space): bool
+    public function restore(User $user, RoomType $roomtype): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class SpacePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Space $space): bool
+    public function forceDelete(User $user, RoomType $roomtype): bool
     {
         return false;
     }

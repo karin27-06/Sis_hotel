@@ -9,10 +9,10 @@ import Textarea from 'primevue/textarea';
 import Checkbox from 'primevue/checkbox';
 import Tag from 'primevue/tag';
 import { useToast } from 'primevue/usetoast';
-import ToolsSpace from './toolsSpace.vue';
+import ToolsRoomType from './toolsRoomType.vue';
 
 // Interfaces
-interface Espacio {
+interface TipoHabitacion {
     name: string;
     description: string;
     state: boolean;
@@ -27,9 +27,9 @@ const toast = useToast();
 
 // Refs
 const submitted = ref<boolean>(false);
-const espacioDialog = ref<boolean>(false);
+const tipoHabitacionDialog = ref<boolean>(false);
 const serverErrors = ref<ServerErrors>({});
-const espacio = ref<Espacio>({
+const tipoHabitacion = ref<TipoHabitacion>({
     name: '',
     description: '',
     state: true
@@ -37,12 +37,12 @@ const espacio = ref<Espacio>({
 
 // Emite evento al padre
 const emit = defineEmits<{
-    (e: 'espacio-agregada'): void
+    (e: 'tipoHabitacion-agregada'): void
 }>();
 
 // Métodos
-function resetEspacio() {
-    espacio.value = {
+function resetTipoHabitacion() {
+    tipoHabitacion.value = {
         name: '',
         description: '',
         state: true
@@ -52,37 +52,37 @@ function resetEspacio() {
 }
 
 function openNew() {
-    resetEspacio();
-    espacioDialog.value = true;
+    resetTipoHabitacion();
+    tipoHabitacionDialog.value = true;
 }
 
 function hideDialog() {
-    espacioDialog.value = false;
-    resetEspacio();
+    tipoHabitacionDialog.value = false;
+    resetTipoHabitacion();
 }
 
-/*async function loadEspacio() {
+/*async function loadTipoHabitacion() {
     try {
-        const response = await axios.get('/espacio');
+        const response = await axios.get('/tipo-habitacion');
         console.log(response.data);
-        emit('espacio-agregada');
+        emit('tipoHabitacion-agregada');
     } catch (error) {
-        toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar los espacios', life: 3000 });
+        toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar los Tipos de habitaciones', life: 3000 });
         console.error(error);
     }
 }*/
 
-async function guardarEspacio() {
+async function guardarTipoHabitacion() {
     submitted.value = true;
     serverErrors.value = {};
 
-    if (!espacio.value.name) return;
+    if (!tipoHabitacion.value.name) return;
 
     try {
-        await axios.post('/espacio', espacio.value);
-        toast.add({ severity: 'success', summary: 'Éxito', detail: 'Espacio registrado', life: 3000 });
+        await axios.post('/tipo-habitacion', tipoHabitacion.value);
+        toast.add({ severity: 'success', summary: 'Éxito', detail: 'Tipo de habitacion registrado', life: 3000 });
         hideDialog();
-        emit('espacio-agregada');
+        emit('tipoHabitacion-agregada');
     } catch (error) {
         const axiosError = error as AxiosError;
         if (axiosError.response && axiosError.response.status === 422) {
@@ -91,7 +91,7 @@ async function guardarEspacio() {
             toast.add({
                 severity: 'error',
                 summary: 'Error',
-                detail: 'No se pudo registrar el espacio',
+                detail: 'No se pudo registrar el Tipo de habitacion',
                 life: 3000
             });
         }
@@ -102,17 +102,17 @@ async function guardarEspacio() {
 <template>
 <Toolbar class="mb-6">
     <template #start>
-        <Button label="Nuevo espacio" icon="pi pi-plus" severity="secondary" class="mr-2" @click="openNew" />
+        <Button label="Nuevo Tipo de habitacion" icon="pi pi-plus" severity="secondary" class="mr-2" @click="openNew" />
     </template>
     <template #end>
-        <ToolsSpace />       
+        <ToolsRoomType />       
     </template>
 </Toolbar>
 
 <Dialog 
-    v-model:visible="espacioDialog" 
+    v-model:visible="tipoHabitacionDialog" 
     :style="{ width: '95vw', maxWidth: '600px' }" 
-    header="Registro de espacio de trabajo" 
+    header="Registro de tipo de habitaciones" 
     :modal="true"
 >
     <div class="flex flex-col gap-6">
@@ -122,13 +122,13 @@ async function guardarEspacio() {
             <div class="col-span-12 md:col-span-10">
                 <label class="block font-bold mb-3">Nombre <span class="text-red-500">*</span></label>
                 <InputText
-                    v-model.trim="espacio.name"
+                    v-model.trim="tipoHabitacion.name"
                     required
                     maxlength="150"
                     fluid
                     class="w-full"
                 />
-                <small v-if="submitted && !espacio.name" class="text-red-500">El nombre es obligatorio.</small>
+                <small v-if="submitted && !tipoHabitacion.name" class="text-red-500">El nombre es obligatorio.</small>
                 <small v-if="serverErrors.name" class="text-red-500">{{ serverErrors.name[0] }}</small>
             </div>
 
@@ -136,8 +136,8 @@ async function guardarEspacio() {
             <div class="col-span-12 md:col-span-2 flex flex-col">
                 <label class="block font-bold mb-2">Estado <span class="text-red-500">*</span></label>
                 <div class="flex items-center gap-3">
-                    <Checkbox v-model="espacio.state" :binary="true" />
-                    <Tag :value="espacio.state ? 'Activo' : 'Inactivo'" :severity="espacio.state ? 'success' : 'danger'" />
+                    <Checkbox v-model="tipoHabitacion.state" :binary="true" />
+                    <Tag :value="tipoHabitacion.state ? 'Activo' : 'Inactivo'" :severity="tipoHabitacion.state ? 'success' : 'danger'" />
                 </div>
                 <small v-if="serverErrors.state" class="text-red-500">{{ serverErrors.state[0] }}</small>
             </div>
@@ -146,7 +146,7 @@ async function guardarEspacio() {
             <div class="col-span-12">
                 <label class="block font-bold mb-3">Descripción</label>
                 <Textarea 
-                    v-model="espacio.description" 
+                    v-model="tipoHabitacion.description" 
                     maxlength="255" 
                     rows="4" 
                     autoResize 
@@ -163,7 +163,7 @@ async function guardarEspacio() {
     <template #footer>
         <div class="flex flex-col sm:flex-row gap-2 w-full sm:justify-end">
             <Button label="Cancelar" icon="pi pi-times" text @click="hideDialog" class="w-full sm:w-auto" />
-            <Button label="Guardar" icon="pi pi-check" @click="guardarEspacio" class="w-full sm:w-auto" />
+            <Button label="Guardar" icon="pi pi-check" @click="guardarTipoHabitacion" class="w-full sm:w-auto" />
         </div>
     </template>
 </Dialog>

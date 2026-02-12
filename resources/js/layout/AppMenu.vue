@@ -33,24 +33,22 @@ interface MenuItem {
 const model = computed<MenuItem[]>(() => [
     {
         label: 'Home',
+        icon: 'pi pi-fw pi-home',
         items: [
-            { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard' }
+            { label: 'Dashboard', icon: 'pi pi-fw pi-chart-bar', to: '/dashboard' }
         ]
     },
     {
-        label: 'Gestion de Trabajo',
-        items: [
-            hasPermission('ver espacios') && { label: 'Espacios', icon: 'pi pi-fw pi-briefcase', to: '/espacios' },
-        ].filter(Boolean) as MenuItem[],
-    },
-    {
         label: 'Gestión de Habitaciones',
+        icon: 'pi pi-building',
         items: [
             hasPermission('ver pisos') && { label: 'Pisos', icon: 'pi pi-fw pi-list', to: '/pisos' },
+            hasPermission('ver tipos de habitacion') && { label: 'Tipos de habitacion', icon: 'pi pi-fw pi-briefcase', to: '/tipos-habitacion' },
         ].filter(Boolean) as MenuItem[],
     },
     {
         label: 'Usuarios y Seguridad',
+        icon: 'pi pi-fw pi-lock',
         items: [
             hasPermission('ver usuarios') && { label: 'Gestión de Usuarios', icon: 'pi pi-fw pi-user-edit', to: '/usuario' },
             hasPermission('ver roles') && { label: 'Roles', icon: 'pi pi-fw pi-shield', to: '/roles' },

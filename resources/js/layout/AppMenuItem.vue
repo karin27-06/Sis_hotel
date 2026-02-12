@@ -156,8 +156,10 @@ function shouldShowItem(item: MenuItem) {
 <template>
   <li :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActiveMenu }">
     <!-- Label raíz -->
-    <div v-if="root && shouldShowItem(item)" class="layout-menuitem-root-text">{{ item.label }}</div>
-
+    <div v-if="root && shouldShowItem(item)" class="layout-menuitem-root-text flex items-center gap-2">
+      <i v-if="item.icon" :class="item.icon"></i>
+      <span>{{ item.label }}</span>
+    </div>
     <!-- Enlace externo o con submenú -->
     <a v-if="(!item.to || item.items) && shouldShowItem(item)" :href="item.url" @click="itemClick($event, item)"
       :class="item.class" :target="item.target" tabindex="0">

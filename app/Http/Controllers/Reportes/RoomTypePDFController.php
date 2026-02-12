@@ -3,24 +3,24 @@
 namespace App\Http\Controllers\Reportes;
 
 use App\Http\Controllers\Controller;
-use App\Models\Space;
+use App\Models\RoomType;
 use TCPDF;
 
-class SpacePDFController extends Controller
+class RoomTypePDFController extends Controller
 {
     public function exportPDF()
     {
-        // Obtener los datos de los espacios y convertirlos en array
-        $spaces = Space::orderBy('id', 'asc')->get();
+        // Obtener los datos de los tipos de habitacion y convertirlos en array
+        $roomtypes = RoomType::orderBy('id', 'asc')->get();
 
-        $spacesArray = $spaces->map(function ($space) {
+        $roomtypesArray = $roomtypes->map(function ($roomtype) {
             return [
-                'id' => $space->id,
-                'name' => $space->name,
-                'description' => $space->description,
-                'state' => $space->state ? 'Activo' : 'Inactivo',
-                'created_at' => $space->created_at,
-                'updated_at' => $space->updated_at,
+                'id' => $roomtype->id,
+                'name' => $roomtype->name,
+                'description' => $roomtype->description,
+                'state' => $roomtype->state ? 'Activo' : 'Inactivo',
+                'created_at' => $roomtype->created_at,
+                'updated_at' => $roomtype->updated_at,
             ];
         })->toArray();
         // Crear el objeto TCPDF
@@ -28,8 +28,8 @@ class SpacePDFController extends Controller
 
         $pdf->SetCreator('Laravel TCPDF');
         $pdf->SetAuthor('Laravel');
-        $pdf->SetTitle('Lista de Espacios');
-        $pdf->SetSubject('Reporte de Espacios');
+        $pdf->SetTitle('Lista de Tipos de habitacion');
+        $pdf->SetSubject('Reporte de Tipos de habitacion');
 
         // Configuración de márgenes
         $pdf->SetMargins(10, 10, 10);
@@ -46,7 +46,7 @@ class SpacePDFController extends Controller
 
         // Encabezado del PDF
         $pdf->SetFont('helvetica', 'B', 18);
-        $pdf->Cell(0, 20, 'Lista de Espacios', 0, 1, 'C');
+        $pdf->Cell(0, 20, 'Lista de Tipos de habitacion', 0, 1, 'C');
 
         // Encabezados de la tabla
         $pdf->SetFont('helvetica', 'B', 10);
@@ -61,10 +61,10 @@ class SpacePDFController extends Controller
         }
         $pdf->Ln();  // Salto de línea después del encabezado
 
-        // Imprimir los datos de los espacios
+        // Imprimir los datos
         $pdf->SetFont('helvetica', '', 8);
 
-        foreach ($spacesArray as $space) {
+        foreach ($roomtypesArray as $roomtype) {
             // Si la posición Y está cerca del final de la página, añadir una nueva página y repetir los encabezados
             if ($pdf->GetY() > 250) {
                 $pdf->AddPage(); // Añadir una nueva página
@@ -79,12 +79,12 @@ class SpacePDFController extends Controller
 
             // Asegurarse de que las celdas no se sobrepasen
             $pdf->SetFont('helvetica', '', 8);
-            $pdf->MultiCell($widths[0], 8, $space['id'], 1, 'C', 0, 0);
-            $pdf->MultiCell($widths[1], 8, $space['name'], 1, 'C', 0, 0);
-            $pdf->MultiCell($widths[2], 8, $space['description'], 1, 'C', 0, 0);
-            $pdf->MultiCell($widths[3], 8, $space['state'], 1, 'C', 0, 0);
-            $pdf->MultiCell($widths[4], 8, $space['created_at'], 1, 'C', 0, 0);
-            $pdf->MultiCell($widths[5], 8, $space['updated_at'], 1, 'C', 0, 0);
+            $pdf->MultiCell($widths[0], 8, $roomtype['id'], 1, 'C', 0, 0);
+            $pdf->MultiCell($widths[1], 8, $roomtype['name'], 1, 'C', 0, 0);
+            $pdf->MultiCell($widths[2], 8, $roomtype['description'], 1, 'C', 0, 0);
+            $pdf->MultiCell($widths[3], 8, $roomtype['state'], 1, 'C', 0, 0);
+            $pdf->MultiCell($widths[4], 8, $roomtype['created_at'], 1, 'C', 0, 0);
+            $pdf->MultiCell($widths[5], 8, $roomtype['updated_at'], 1, 'C', 0, 0);
             $pdf->Ln();  // Salto de línea después de cada fila
         }
         // Detenemos cualquier salida previa si la hay
@@ -92,9 +92,9 @@ class SpacePDFController extends Controller
             ob_end_clean();
         }
 
-        $pdfOutput = $pdf->Output('Espacios.pdf', 'S'); // "S" = string, no lo imprime directamente
+        $pdfOutput = $pdf->Output('Tipos de habitacion.pdf', 'S'); // "S" = string, no lo imprime directamente
         return response($pdfOutput)
             ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="Espacios.pdf"');
+            ->header('Content-Disposition', 'attachment; filename="Tipos de habitacion.pdf"');
     }
 }

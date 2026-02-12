@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SpaceResource extends JsonResource
+class RoomTypeResource extends JsonResource
 {
     public function toArray(Request $request): array
     {

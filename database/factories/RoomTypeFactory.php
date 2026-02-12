@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Space;
+use App\Models\RoomType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SpaceFactory extends Factory
+class RoomTypeFactory extends Factory
 {
-    protected $model = Space::class; // Indica el modelo asociado
+    protected $model = RoomType::class; // Indica el modelo asociado
 
     public function definition(): array
     {

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Space extends Model
+class RoomType extends Model
 {
     use HasFactory;
 
-    protected $table = 'spaces'; // nombre de la tabla
+    protected $table = 'room_types'; // nombre de la tabla
 
     protected $fillable = [
         'name',

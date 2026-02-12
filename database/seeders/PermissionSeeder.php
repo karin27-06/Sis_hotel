@@ -26,15 +26,15 @@ class PermissionSeeder extends Seeder{
         Permission::create(['name' =>'editar permisos']);
         Permission::create(['name' =>'eliminar permisos']);
         Permission::create(['name' =>'ver permisos']);
-        # Espacios
-        Permission::create(['name' => 'crear espacios']);
-        Permission::create(['name' => 'editar espacios']);
-        Permission::create(['name' => 'eliminar espacios']);
-        Permission::create(['name' => 'ver espacios']);
         #Pisos
         Permission::create(['name' => 'crear pisos']);
         Permission::create(['name' => 'editar pisos']);
         Permission::create(['name' => 'eliminar pisos']);
         Permission::create(['name' => 'ver pisos']);
+        #Tipos de habitacion
+        Permission::create(['name' => 'crear tipos de habitacion']);
+        Permission::create(['name' => 'editar tipos de habitacion']);
+        Permission::create(['name' => 'eliminar tipos de habitacion']);
+        Permission::create(['name' => 'ver tipos de habitacion']);
     }
 }

@@ -10,12 +10,12 @@ import Tag from 'primevue/tag';
 import Select from 'primevue/select';
 import axios from 'axios';
 import { debounce } from 'lodash';
-import DeleteEspacio from './DeleteEspacio.vue';
-import UpdateEspacio from './UpdateEspacio.vue';
+import DeleteTipoHabitacion from './DeleteTipoHabitacion.vue';
+import UpdateTipoHabitacion from './UpdateTipoHabitacion.vue';
 import { useToast } from 'primevue/usetoast';
 
 // Interfaces
-interface Espacio {
+interface TipoHabitacion {
   id: number;
   name: string;
   description: string;
@@ -31,15 +31,15 @@ interface EstadoOption {
 
 // Refs
 const dt = ref<any>(null);
-const espacios = ref<Espacio[]>([]);
-const selectedEspacios = ref<Espacio[] | null>(null);
+const tipoHabitaciones = ref<TipoHabitacion[]>([]);
+const selectedTipoHabitaciones = ref<TipoHabitacion[] | null>(null);
 const loading = ref(false);
 const globalFilterValue = ref('');
-const deleteEspacioDialog = ref(false);
-const updateEspacioDialog = ref(false);
-const espacio = ref<Espacio | null>(null);
-const selectedEspacioId = ref<number | null>(null);
-const selectedEstadoEspacio = ref<EstadoOption | null>(null);
+const deleteTipoHabitacionDialog = ref(false);
+const updateTipoHabitacionDialog = ref(false);
+const tipoHabitacion = ref<TipoHabitacion | null>(null);
+const selectedTipoHabitacionId = ref<number | null>(null);
+const selectedEstadoTipoHabitacion = ref<EstadoOption | null>(null);
 const currentPage = ref(1);
 
 // Props
@@ -49,43 +49,43 @@ const props = defineProps<{ refresh: number }>();
 const toast = useToast();
 
 // Watchers
-watch(() => props.refresh, () => loadEspacio());
+watch(() => props.refresh, () => loadTipoHabitacion());
 
-watch(() => selectedEstadoEspacio.value, () => {
+watch(() => selectedEstadoTipoHabitacion.value, () => {
   currentPage.value = 1;
-  loadEspacio();
+  loadTipoHabitacion();
 });
 
 // Funciones
-function editEspacio(e: Espacio) {
-  selectedEspacioId.value = e.id ?? null;
-  updateEspacioDialog.value = true;
+function editTipoHabitacion(e: TipoHabitacion) {
+  selectedTipoHabitacionId.value = e.id ?? null;
+  updateTipoHabitacionDialog.value = true;
 }
 
-const estadoEspacioOptions = ref<EstadoOption[]>([
+const estadoTipoHabitacionOptions = ref<EstadoOption[]>([
   { name: 'TODOS', value: '' },
   { name: 'ACTIVOS', value: 1 },
   { name: 'INACTIVOS', value: 0 },
 ]);
 
-function handleEspacioUpdated() {
-  loadEspacio();
+function handleTipoHabitacionUpdated() {
+  loadTipoHabitacion();
 }
 
-function confirmDeleteEspacio(selected: Espacio) {
+function confirmDeleteTipoHabitacion(selected: TipoHabitacion) {
   if (selected.id === undefined) return; // evita pasar objeto incompleto
-  espacio.value = selected;
-  deleteEspacioDialog.value = true;
+  tipoHabitacion.value = selected;
+  deleteTipoHabitacionDialog.value = true;
 }
 
 const pagination = ref({ currentPage: 1, perPage: 15, total: 0 });
 const filters = ref({ state: null as string | number | null, online: null });
 
-function handleEspacioDeleted() {
-  loadEspacio();
+function handleTipoHabitacionDeleted() {
+  loadTipoHabitacion();
 }
 
-const loadEspacio = async () => {
+const loadTipoHabitacion = async () => {
   loading.value = true;
   try {
     const params: any = {
@@ -95,18 +95,18 @@ const loadEspacio = async () => {
       state: filters.value.state,
     };
 
-    if (selectedEstadoEspacio.value !== null && selectedEstadoEspacio.value.value !== '') {
-      params.state = selectedEstadoEspacio.value.value;
+    if (selectedEstadoTipoHabitacion.value !== null && selectedEstadoTipoHabitacion.value.value !== '') {
+      params.state = selectedEstadoTipoHabitacion.value.value;
     }
 
-    const response = await axios.get('/espacio', { params });
+    const response = await axios.get('/tipo-habitacion', { params });
 
-    espacios.value = response.data.data;
+    tipoHabitaciones.value = response.data.data;
     pagination.value.currentPage = response.data.meta.current_page;
     pagination.value.total = response.data.meta.total;
   } catch (error) {
-    console.error('Error al cargar los espacios:', error);
-    toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los espacios', life: 3000 });
+    console.error('Error al cargar los Tipos de habitaciones:', error);
+    toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los Tipos de habitaciones', life: 3000 });
   } finally {
     loading.value = false;
   }
@@ -115,26 +115,26 @@ const loadEspacio = async () => {
 const onPage = (event: { page: number; rows: number }) => {
   pagination.value.currentPage = event.page + 1;
   pagination.value.perPage = event.rows;
-  loadEspacio();
+  loadTipoHabitacion();
 };
 
 const getSeverity = (value: boolean) => (value ? 'success' : 'danger');
 
 const onGlobalSearch = debounce(() => {
   pagination.value.currentPage = 1;
-  loadEspacio();
+  loadTipoHabitacion();
 }, 500);
 
 onMounted(() => {
-  loadEspacio();
+  loadTipoHabitacion();
 });
 </script>
 
 <template>
 <DataTable 
   ref="dt" 
-  v-model:selection="selectedEspacios" 
-  :value="espacios" 
+  v-model:selection="selectedTipoHabitaciones" 
+  :value="tipoHabitaciones" 
   dataKey="id" 
   :paginator="true"
   :rows="pagination.perPage" 
@@ -148,11 +148,11 @@ onMounted(() => {
   responsiveLayout="scroll" 
   class="w-full text-sm sm:text-base"
   paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} espacios"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Tipos de habitaciones"
 >
   <template #header>
     <div class="flex flex-col md:flex-row gap-2 items-start md:items-center justify-between w-full">
-      <h4 class="m-0 text-base sm:text-lg md:text-xl">ESPACIOS DE TRABAJO</h4>
+      <h4 class="m-0 text-base sm:text-lg md:text-xl">TIPOS DE HABITACION</h4>
       <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
         <IconField class="w-full sm:w-64">
           <InputIcon>
@@ -161,13 +161,13 @@ onMounted(() => {
           <InputText 
             v-model="globalFilterValue" 
             @input="onGlobalSearch" 
-            placeholder="Buscar espacio..." 
+            placeholder="Buscar Tipo de habitacion..." 
             class="w-full" 
           />
         </IconField>
         <Select 
-          v-model="selectedEstadoEspacio" 
-          :options="estadoEspacioOptions" 
+          v-model="selectedEstadoTipoHabitacion" 
+          :options="estadoTipoHabitacionOptions" 
           optionLabel="name"
           placeholder="Estado" 
           class="w-full sm:w-40" 
@@ -179,7 +179,7 @@ onMounted(() => {
           rounded 
           aria-label="Refresh" 
           class="w-full sm:w-auto" 
-          @click="loadEspacio" 
+          @click="loadTipoHabitacion" 
         />
       </div>
     </div>
@@ -197,22 +197,22 @@ onMounted(() => {
   </Column>
   <Column field="actions" header="Acciones" :exportable="false" style="min-width: 8rem">
     <template #body="slotProps">
-      <Button title="Editar espacio" icon="pi pi-pencil" outlined rounded class="mr-2" @click="editEspacio(slotProps.data)" />
-      <Button title="Eliminar espacio" icon="pi pi-trash" outlined rounded severity="danger"
-        @click="confirmDeleteEspacio(slotProps.data)" 
+      <Button title="Editar Tipo de habitacion" icon="pi pi-pencil" outlined rounded class="mr-2" @click="editTipoHabitacion(slotProps.data)" />
+      <Button title="Eliminar Tipode habitacion" icon="pi pi-trash" outlined rounded severity="danger"
+        @click="confirmDeleteTipoHabitacion(slotProps.data)" 
       />
     </template>
   </Column>
 </DataTable>
 
-<DeleteEspacio 
-  v-model:visible="deleteEspacioDialog" 
-  :espacio="espacio" 
-  @deleted="handleEspacioDeleted" 
+<DeleteTipoHabitacion 
+  v-model:visible="deleteTipoHabitacionDialog" 
+  :tipoHabitacion="tipoHabitacion" 
+  @deleted="handleTipoHabitacionDeleted" 
 />
-<UpdateEspacio 
-  v-model:visible="updateEspacioDialog" 
-  :espacioId="selectedEspacioId"
-  @updated="handleEspacioUpdated" 
+<UpdateTipoHabitacion 
+  v-model:visible="updateTipoHabitacionDialog" 
+  :tipoHabitacionId="selectedTipoHabitacionId"
+  @updated="handleTipoHabitacionUpdated" 
 />
 </template>

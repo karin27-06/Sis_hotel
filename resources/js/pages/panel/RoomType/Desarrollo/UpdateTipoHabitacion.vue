@@ -10,7 +10,7 @@ import axios, { AxiosError } from 'axios';
 import { useToast } from 'primevue/usetoast';
 
 // Interfaces
-interface Espacio {
+interface TipoHabitacion {
     name: string;
     description: string;
     state: boolean;
@@ -25,7 +25,7 @@ interface ServerErrors {
 // Props
 const props = defineProps<{
     visible: boolean;
-    espacioId: number | null;
+    tipoHabitacionId: number | null;
 }>();
 
 // Emit
@@ -42,7 +42,7 @@ const dialogVisible = ref<boolean>(props.visible);
 const loading = ref<boolean>(false);
 const submitted = ref<boolean>(false);
 const serverErrors = ref<ServerErrors>({});
-const espacio = ref<Espacio>({
+const tipoHabitacion = ref<TipoHabitacion>({
     name: '',
     description: '',
     state: false,
@@ -51,49 +51,49 @@ const espacio = ref<Espacio>({
 // Watchers
 watch(() => props.visible, (val) => {
     dialogVisible.value = val;
-    if (val && props.espacioId) {
-        fetchEspacio();
+    if (val && props.tipoHabitacionId) {
+        fetchTipoHabitacion();
     }
 });
 watch(dialogVisible, (val) => emit('update:visible', val));
 
-// Fetch espacio
-const fetchEspacio = async () => {
+// Fetch TipoHabitacion
+const fetchTipoHabitacion = async () => {
     try {
         loading.value = true;
-        const res = await axios.get(`/espacio/${props.espacioId}`);
-        const data = res.data.space;
-        espacio.value = {
+        const res = await axios.get(`/tipo-habitacion/${props.tipoHabitacionId}`);
+        const data = res.data.roomtype;
+        tipoHabitacion.value = {
             name: data.name,
             description: data.description || '',
             state: data.state
         };
     } catch (error) {
-        toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar el espacio', life: 3000 });
+        toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar el Tipo de habitacion', life: 3000 });
         console.error(error);
     } finally {
         loading.value = false;
     }
 };
 
-// Update espacio
-const updateEspacio = async () => {
+// Update tipoHabitacion
+const updateTipoHabitacion = async () => {
     submitted.value = true;
     serverErrors.value = {};
 
     try {
-        const espacioData = {
-            name: espacio.value.name,
-            description: espacio.value.description,
-            state: espacio.value.state
+        const tipoHabitacionData = {
+            name: tipoHabitacion.value.name,
+            description: tipoHabitacion.value.description,
+            state: tipoHabitacion.value.state
         };
 
-        await axios.put(`/espacio/${props.espacioId}`, espacioData);
+        await axios.put(`/tipo-habitacion/${props.tipoHabitacionId}`, tipoHabitacionData);
 
         toast.add({
             severity: 'success',
             summary: 'Actualizado',
-            detail: 'Espacio actualizado correctamente',
+            detail: 'Tipo de habitacion actualizado correctamente',
             life: 3000
         });
 
@@ -113,7 +113,7 @@ const updateEspacio = async () => {
             toast.add({
                 severity: 'error',
                 summary: 'Error',
-                detail: 'No se pudo actualizar el espacio',
+                detail: 'No se pudo actualizar el Tipo de habitacion',
                 life: 3000
             });
         }
@@ -125,7 +125,7 @@ const updateEspacio = async () => {
 <template>
 <Dialog 
     v-model:visible="dialogVisible" 
-    header="Editar espacio de trabajo" 
+    header="Editar Tipo de habitacion" 
     modal 
     :closable="true" 
     :style="{ width: '95vw', maxWidth: '600px' }"
@@ -137,7 +137,7 @@ const updateEspacio = async () => {
             <div class="col-span-12 md:col-span-10">
                 <label class="block font-bold mb-2">Nombre <span class="text-red-500">*</span></label>
                 <InputText
-                    v-model="espacio.name"
+                    v-model="tipoHabitacion.name"
                     required
                     maxlength="150"
                     fluid
@@ -151,8 +151,8 @@ const updateEspacio = async () => {
             <div class="col-span-12 md:col-span-2 flex flex-col">
                 <label class="block font-bold mb-2">Estado <span class="text-red-500">*</span></label>
                 <div class="flex items-center gap-3">
-                    <Checkbox v-model="espacio.state" :binary="true" />
-                    <Tag :value="espacio.state ? 'Activo' : 'Inactivo'" :severity="espacio.state ? 'success' : 'danger'" />
+                    <Checkbox v-model="tipoHabitacion.state" :binary="true" />
+                    <Tag :value="tipoHabitacion.state ? 'Activo' : 'Inactivo'" :severity="tipoHabitacion.state ? 'success' : 'danger'" />
                 </div>
             </div>
 
@@ -160,7 +160,7 @@ const updateEspacio = async () => {
             <div class="col-span-12">
                 <label class="block font-bold mb-3">Descripción</label>
                 <Textarea
-                    v-model="espacio.description"
+                    v-model="tipoHabitacion.description"
                     maxlength="255"
                     rows="4"
                     autoResize
@@ -178,7 +178,7 @@ const updateEspacio = async () => {
     <template #footer>
         <div class="flex flex-col sm:flex-row gap-2 w-full sm:justify-end">
             <Button label="Cancelar" icon="pi pi-times" text class="w-full sm:w-auto" @click="dialogVisible = false" />
-            <Button label="Guardar" icon="pi pi-check" @click="updateEspacio" :loading="loading" class="w-full sm:w-auto" />
+            <Button label="Guardar" icon="pi pi-check" @click="updateTipoHabitacion" :loading="loading" class="w-full sm:w-auto" />
         </div>
     </template>
 </Dialog>
