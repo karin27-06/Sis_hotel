@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ConsultasDni;
 use App\Http\Controllers\Api\ConsultasId;
 use App\Http\Controllers\Api\FloorController;
 use App\Http\Controllers\Api\RolesController;
+use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\RoomTypeController;
 use App\Http\Controllers\Api\UsuariosController;
 use App\Http\Controllers\Api\SpaceController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Reportes\RoomTypePDFController;
 use App\Http\Controllers\Reportes\SpacePDFController;
 use App\Http\Controllers\Web\FloorWebController;
 use App\Http\Controllers\Web\RoomTypeWebController;
+use App\Http\Controllers\Web\RoomWebController;
 use App\Http\Controllers\Web\UsuarioWebController;
 
 use Illuminate\Support\Facades\Route;
@@ -39,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/roles', [UsuarioWebController::class, 'roles'])->name('roles.view');
     Route::get('/datos/dashboard', [DashboardController::class, 'getdatos']);
     Route::get('/pisos', [FloorWebController::class, 'index'])->name('index.view');
+    Route::get('/habitaciones', [RoomWebController::class, 'index'])->name('index.view');
 
     #CONSULTA  => BACKEND
     Route::get('/consulta/{dni}', [ConsultasDni::class, 'consultar'])->name('consultar.dni');
@@ -80,6 +83,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/{floor}', [FloorController::class, 'update'])->name('Pisos.update');
         Route::delete('/{floor}', [FloorController::class, 'destroy'])->name('Pisos.destroy');
     });
+
+    #CLIENTE => BACKEND
+    Route::prefix('habitacion')->group(function () {
+        Route::get('/', [RoomController::class, 'index'])->name('habitacion.index');
+        Route::post('/', [RoomController::class, 'store'])->name('habitaciones.store');
+        Route::get('{room}', [RoomController::class, 'show'])->name('habitaciones.show');
+        Route::put('{room}', [RoomController::class, 'update'])->name('habitaciones.update');
+        Route::delete('{room}', [RoomController::class, 'destroy'])->name('habitaciones.destroy');
+    });
+
     Route::prefix('panel/reports')->group(function () {
 
         // EXPORTACION Y IMPORTACION TIPOS DE HABITACION
@@ -91,6 +104,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/export-pdf-floors', [FloorPDFController::class, 'exportPDF'])->name('export-pdf-floors');
         // Ruta para importar desde Excel
         Route::post('/import-excel-floors', [FloorController::class, 'importExcel'])->name('import-excel-floors');
+
+        #EXPORTACION Y IMPORTACION CLIENTES
+        Route::get('/export-excel-rooms', [RoomController::class, 'exportCsv'])->name('export-excel-rooms');
+        //Route::get('/export-pdf-rooms', [RoomPDFController::class, 'exportPDF'])->name('export-pdf-rooms');
+        // Ruta para importar desde Excel
+        Route::post('/import-excel-rooms', [RoomController::class, 'importExcel'])->name('import-excel-rooms');
     });
 });
             //RUTAS PARA QUE PASEN EL TEST
