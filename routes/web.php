@@ -84,7 +84,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{floor}', [FloorController::class, 'destroy'])->name('Pisos.destroy');
     });
 
-    #CLIENTE => BACKEND
+    #habitacion => BACKEND
     Route::prefix('habitacion')->group(function () {
         Route::get('/', [RoomController::class, 'index'])->name('habitacion.index');
         Route::post('/', [RoomController::class, 'store'])->name('habitaciones.store');

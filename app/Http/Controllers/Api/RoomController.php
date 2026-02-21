@@ -21,6 +21,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use App\Pipelines\FilterByCodigo;
+use App\Pipelines\FilterByNumber;
 use Maatwebsite\Excel\Excel as ExcelFormat;
 
 class RoomController extends Controller
@@ -29,14 +30,11 @@ class RoomController extends Controller
     {
         Gate::authorize('viewAny', Room::class);
         $perPage = $request->input('per_page', 15);
-        $search = $request->input(key: 'search');
-        $codigo = $request->input(key: 'codigo');
+        $search = $request->input('search');
         $query = app(Pipeline::class)
             ->send(Room::query())
             ->through([
-                new FilterByName($search),
-                new FilterByCodigo(codigo: $codigo),
-
+                new FilterByNumber($search),
                 new FilterByState($request->input('state')),
             ])
             ->thenReturn();

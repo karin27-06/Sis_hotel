@@ -150,13 +150,21 @@ function hideDialog() {
 }
 
 function fetchFloors() {
-    axios.get('/piso')
-        .then(res => floors.value = res.data.data)
+    axios.get('/piso', { params: { state: 1 } })
+        .then(res => {
+        floors.value = res.data.data;
+        })
+        .catch(() => {
+            toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar los pisos', life: 3000 });
+        });
 }
 
 function fetchRoomTypes() {
-    axios.get('/tipo-habitacion')
-        .then(res => roomTypes.value = res.data.data)
+    axios.get('/tipo-habitacion', { params: { state: 1 } })
+        .then(res => {roomTypes.value = res.data.data;})
+        .catch(() => {
+            toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar los tipos de habitaciones', life: 3000 });
+        });
 }
 
 function guardarHabitacion() {

@@ -21,9 +21,12 @@ class RoomType extends Model
     protected $casts = [
         'state' => 'boolean',
     ];
-    /*public function tieneRelaciones(): bool
+    public function room()
     {
-    return $this->Schedules()->exists() || $this->Movements()->exists();
-    }*/
-    //PONER LAS RELACIONES QUE EXISTEN CON OTROS MODELOS
+        return $this->hasMany(Room::class, 'room_type_id');
+    }
+    public function tieneRelaciones(): bool
+    {
+        return $this->room()->exists();
+    }
 }

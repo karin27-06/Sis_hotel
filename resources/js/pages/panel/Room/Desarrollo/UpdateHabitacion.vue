@@ -181,70 +181,92 @@ const getSeverity = (state:string) => {
     v-model:visible="dialogVisible"
     header="Editar Habitación"
     modal
-    :style="{ width:'85vw', maxWidth:'550px' }"
+    :style="{ width:'85vw', maxWidth:'600px' }"
 >
 
-<div class="flex flex-col gap-5">
+<div class="grid grid-cols-12 gap-4">
 
-<div>
-<label class="font-bold">Número *</label>
-<InputText v-model="habitacion.number" class="w-full" />
-<small v-if="serverErrors.number" class="text-red-500">{{ serverErrors.number[0] }}</small>
-</div>
+    <!-- Numero -->
+    <div class="col-span-12 md:col-span-6">
+        <label class="block font-bold mb-2">Número <span class="text-red-500">*</span></label>
+        <InputText v-model="habitacion.number" fluid />
+        <small v-if="serverErrors.number" class="text-red-500">{{ serverErrors.number[0] }}</small>
+    </div>
 
-<div>
-<label class="font-bold">Piso *</label>
-<Dropdown
-    v-model="habitacion.floor_id"
-    :options="floors"
-    optionLabel="name"
-    optionValue="id"
-    placeholder="Seleccione piso"
-    class="w-full"
-/>
-</div>
+    <!-- Precio (igual que Add) -->
+    <div class="col-span-12 md:col-span-6">
+        <label class="block font-bold mb-2">Precio <span class="text-red-500">*</span></label>
+        <InputNumber
+            v-model="habitacion.price"
+            mode="decimal"
+            :min="0"
+            :minFractionDigits="2"
+            :maxFractionDigits="2"
+            fluid
+        />
+        <small v-if="serverErrors.price" class="text-red-500">{{ serverErrors.price[0] }}</small>
+    </div>
 
-<div>
-<label class="font-bold">Tipo Habitación *</label>
-<Dropdown
-    v-model="habitacion.room_type_id"
-    :options="roomTypes"
-    optionLabel="name"
-    optionValue="id"
-    placeholder="Seleccione tipo"
-    class="w-full"
-/>
-</div>
+    <!-- Piso -->
+    <div class="col-span-12 md:col-span-6">
+        <label class="block font-bold mb-2">Piso <span class="text-red-500">*</span></label>
+        <Dropdown
+            v-model="habitacion.floor_id"
+            :options="floors"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Seleccione piso"
+            fluid
+        />
+        <small v-if="serverErrors.floor_id" class="text-red-500">{{ serverErrors.floor_id[0] }}</small>
+    </div>
 
-<div>
-<label class="font-bold">Precio *</label>
-<InputNumber v-model="habitacion.price" mode="decimal" class="w-full" />
-</div>
+    <!-- Tipo habitación (CON BUSCADOR) -->
+    <div class="col-span-12 md:col-span-6">
+        <label class="block font-bold mb-2">Tipo de habitación <span class="text-red-500">*</span></label>
+        <Dropdown
+            v-model="habitacion.room_type_id"
+            :options="roomTypes"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Seleccione tipo"
+            filter
+            fluid
+        />
+        <small v-if="serverErrors.room_type_id" class="text-red-500">{{ serverErrors.room_type_id[0] }}</small>
+    </div>
 
-<div>
-<label class="font-bold">Características</label>
-<InputText v-model="habitacion.characteristics" class="w-full" />
-</div>
+    <!-- Caracteristicas -->
+    <div class="col-span-12">
+        <label class="block font-bold mb-2">Características</label>
+        <InputText v-model="habitacion.characteristics" fluid />
+        <small v-if="serverErrors.characteristics" class="text-red-500">
+            {{ serverErrors.characteristics[0] }}
+        </small>
+    </div>
 
-<div>
-<label class="font-bold">Estado *</label>
-<Dropdown
-    v-model="habitacion.state"
-    :options="estados"
-    optionLabel="name"
-    optionValue="value"
-    class="w-full"
-/>
-<div class="mt-2">
-<Tag :value="habitacion.state" :severity="getSeverity(habitacion.state)" />
-</div>
-</div>
+    <!-- Estado -->
+    <div class="col-span-12 md:col-span-6">
+        <label class="block font-bold mb-2">Estado <span class="text-red-500">*</span></label>
+        <Dropdown
+            v-model="habitacion.state"
+            :options="estados"
+            optionLabel="name"
+            optionValue="value"
+            fluid
+        />
+    </div>
+
+    <!-- Tag estado -->
+    <div class="col-span-12 md:col-span-6 flex items-end">
+        <Tag :value="habitacion.state" :severity="getSeverity(habitacion.state)" />
+    </div>
 
 </div>
 
 <template #footer>
-<Button label="Cancelar" text icon="pi pi-times" @click="dialogVisible=false" />
-<Button label="Guardar" icon="pi pi-check" :loading="loading" @click="updateHabitacion" />
+    <Button label="Cancelar" text icon="pi pi-times" @click="dialogVisible=false" />
+    <Button label="Guardar" icon="pi pi-check" :loading="loading" @click="updateHabitacion" />
 </template>
 
 </Dialog>

@@ -125,9 +125,9 @@ const loadHabitaciones = async () => {
     }
 }
 
-const onPage = (event: any) => {
-    pagination.value.currentPage = event.page + 1
-    pagination.value.perPage = event.rows
+const onPage = (event: { page: number; rows: number }) => {
+    pagination.value.currentPage = event.page + 1;
+    pagination.value.perPage = event.rows;
     loadHabitaciones()
 }
 
@@ -156,29 +156,32 @@ onMounted(loadHabitaciones)
     v-model:selection="selectedHabitaciones"
     :value="habitaciones"
     dataKey="id"
-    paginator
+    :paginator="true"
     :rows="pagination.perPage"
     :totalRecords="pagination.total"
     :loading="loading"
-    lazy
+    :lazy="true"
     @page="onPage"
     :rowsPerPageOptions="[15,20,25]"
     scrollable
     scrollHeight="574px"
+    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} habitaciones"
+    class="w-full overflow-x-auto"
 >
 
 <template #header>
-<div class="flex flex-col sm:flex-row gap-3 justify-between">
+    <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 items-start sm:items-center justify-between w-full">
     <h4>HABITACIONES</h4>
 
-    <div class="flex gap-2">
-        <IconField>
+    <div class="flex flex-col sm:flex-row flex-wrap gap-2 w-full sm:w-auto items-stretch sm:items-center justify-start sm:justify-end">
+        <IconField class="w-full sm:w-auto">
             <InputIcon><i class="pi pi-search" /></InputIcon>
             <InputText
                 v-model="globalFilterValue"
                 @input="onGlobalSearch"
-                placeholder="Buscar habitación..."
+                placeholder="Buscar N° habitación..."
+                class="w-full sm:w-60"
             />
         </IconField>
 
@@ -187,11 +190,19 @@ onMounted(loadHabitaciones)
             :options="estadoOptions"
             optionLabel="name"
             placeholder="Estado"
+            class="w-full sm:w-40"
         />
 
-        <Button icon="pi pi-refresh" outlined rounded @click="loadHabitaciones" />
+        <Button
+            icon="pi pi-refresh"
+            outlined
+            rounded
+            aria-label="Refresh"
+            @click="loadHabitaciones"
+            class="w-full sm:w-auto"
+        />
+        </div>
     </div>
-</div>
 </template>
 
 <Column selectionMode="multiple" style="width:1rem"/>

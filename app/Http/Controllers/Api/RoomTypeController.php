@@ -75,13 +75,13 @@ class RoomTypeController extends Controller
     public function destroy(RoomType $roomtype)
     {
         Gate::authorize('delete', $roomtype);
-        /*if($roomtype->tieneRelaciones())
+        if($roomtype->tieneRelaciones())
         {
             return response()->json([
                 'state'=>false,
                 'message'=> 'No se puede eliminar este tipo de habitacion porque tiene relaciones con otros registros.'
             ],400);
-        }*///PONER AQUI LAS RELACIONES QUE EXISTEN CON OTROS MODELOS
+        }//PONER AQUI LAS RELACIONES QUE EXISTEN CON OTROS MODELOS
         $roomtype->delete();
         return response()->json([
             'state' => true,
