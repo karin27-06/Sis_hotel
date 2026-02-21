@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\ClientTypeController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ConsultasDni;
 use App\Http\Controllers\Api\ConsultasId;
+use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\FloorController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\RoomController;
@@ -10,14 +12,18 @@ use App\Http\Controllers\Api\RoomTypeController;
 use App\Http\Controllers\Api\UsuariosController;
 use App\Http\Controllers\Api\SpaceController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Reportes\ClientTypePDFController;
+use App\Http\Controllers\Reportes\CustomerPDFController;
 use App\Http\Controllers\Reportes\FloorPDFController;
 use App\Http\Controllers\Reportes\RoomTypePDFController;
 use App\Http\Controllers\Reportes\SpacePDFController;
+use App\Http\Controllers\Web\ClientTypeWebController;
+use App\Http\Controllers\Web\CustomerWebController;
 use App\Http\Controllers\Web\FloorWebController;
 use App\Http\Controllers\Web\RoomTypeWebController;
 use App\Http\Controllers\Web\RoomWebController;
 use App\Http\Controllers\Web\UsuarioWebController;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +48,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/datos/dashboard', [DashboardController::class, 'getdatos']);
     Route::get('/pisos', [FloorWebController::class, 'index'])->name('index.view');
     Route::get('/habitaciones', [RoomWebController::class, 'index'])->name('index.view');
+    Route::get('/clientes', [CustomerWebController::class, 'index'])->name('index.view');
+    Route::get('/tipo_clientes', [ClientTypeWebController::class, 'index'])->name('index.view');
 
     #CONSULTA  => BACKEND
     Route::get('/consulta/{dni}', [ConsultasDni::class, 'consultar'])->name('consultar.dni');
@@ -92,7 +100,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('{room}', [RoomController::class, 'update'])->name('habitaciones.update');
         Route::delete('{room}', [RoomController::class, 'destroy'])->name('habitaciones.destroy');
     });
-
+    #CLIENTE => BACKEND
+    Route::prefix('cliente')->group(function () {
+        Route::get('/', [CustomerController::class, 'index'])->name('cliente.index');
+        Route::post('/', [CustomerController::class, 'store'])->name('clientes.store');
+        Route::get('{customer}', [CustomerController::class, 'show'])->name('clientes.show');
+        Route::put('{customer}', [CustomerController::class, 'update'])->name('clientes.update');
+        Route::delete('{customer}', [CustomerController::class, 'destroy'])->name('clientes.destroy');
+    });
+    #TIPOS DE CLIENTES -> BACKEND
+    Route::prefix('tipo_cliente')->group(function () {
+        Route::post('/', [ClientTypeController::class, 'store'])->name('Tipos_Clientes.store');
+        Route::get('/{clientType}', [ClientTypeController::class, 'show'])->name('Tipos_Clientes.show');
+        Route::put('/{clientType}', [ClientTypeController::class, 'update'])->name('Tipos_Clientes.update');
+        Route::delete('/{clientType}', [ClientTypeController::class, 'destroy'])->name('Tipos_Clientes.destroy');
+    });
     Route::prefix('panel/reports')->group(function () {
 
         // EXPORTACION Y IMPORTACION TIPOS DE HABITACION
@@ -105,18 +127,43 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Ruta para importar desde Excel
         Route::post('/import-excel-floors', [FloorController::class, 'importExcel'])->name('import-excel-floors');
 
-        #EXPORTACION Y IMPORTACION CLIENTES
+        #EXPORTACION Y IMPORTACION HABITACIONES
         Route::get('/export-excel-rooms', [RoomController::class, 'exportCsv'])->name('export-excel-rooms');
         //Route::get('/export-pdf-rooms', [RoomPDFController::class, 'exportPDF'])->name('export-pdf-rooms');
         // Ruta para importar desde Excel
         Route::post('/import-excel-rooms', [RoomController::class, 'importExcel'])->name('import-excel-rooms');
+
+        #EXPORTACION Y IMPORTACION TIPOS DE CLIENTES
+        Route::get('/export-excel-clientTypes', [ClientTypeController::class, 'exportExcel'])->name('export-excel-clientTypes');
+        Route::get('/export-pdf-clientTypes', [ClientTypePDFController::class, 'exportPDF'])->name('export-pdf-clientTypes');
+        // Ruta para importar desde Excel
+        Route::post('/import-excel-clientTypes', [ClientTypeController::class, 'importExcel'])->name('import-excel-clientTypes');
+
+        #EXPORTACION Y IMPORTACION CLIENTES
+        Route::get('/export-excel-customers', [CustomerController::class, 'exportCsv'])->name('export-excel-customers');
+        Route::get('/export-pdf-customers', [CustomerPDFController::class, 'exportPDF'])->name('export-pdf-customers');
+        // Ruta para importar desde Excel
+        Route::post('/import-excel-customers', [CustomerController::class, 'importExcel'])->name('import-excel-customers');
     });
 });
+// En web.php
+        Route::get('/landing-logout', function (Request $request) {
+            // Cerrar sesión si el usuario está autenticado
+            if (Auth::check()) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+            }
+            
+            // Redirigir al login
+            return redirect('/login');
+        })->name('landing.logout');
+        
             //RUTAS PARA QUE PASEN EL TEST
         Route::get('/register', [RegisteredUserController::class, 'create'])
             ->middleware('guest')
             ->name('register');
-
+        Route::get('/tipo_cliente', [ClientTypeController::class, 'index'])->name('Tipos_Clientes.index');
         Route::post('/register', [RegisteredUserController::class, 'store'])
             ->middleware('guest');
 // Archivos de configuración adicionales

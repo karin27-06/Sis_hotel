@@ -41,5 +41,15 @@ class PermissionSeeder extends Seeder{
         Permission::create(['name' => 'editar habitaciones']);
         Permission::create(['name' => 'eliminar habitaciones']);
         Permission::create(['name' => 'ver habitaciones']);
+        #cliente
+        Permission::create(['name' => 'crear clientes']);
+        Permission::create(['name' => 'editar clientes']);
+        Permission::create(['name' => 'eliminar clientes']);
+        Permission::create(['name' => 'ver clientes']);
+        #Tipo Clientes
+        Permission::create(['name' => 'crear tipos_clientes']);
+        Permission::create(['name' => 'editar tipos_clientes']);
+        Permission::create(['name' => 'eliminar tipos_clientes']);
+        Permission::create(['name' => 'ver tipos_clientes']);
     }
 }

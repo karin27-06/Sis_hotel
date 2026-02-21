@@ -48,6 +48,24 @@ const model = computed<MenuItem[]>(() => [
         ].filter(Boolean) as MenuItem[],
     },
     {
+    label: 'Gestion de datos',
+    icon: 'pi pi-fw pi-users',
+    items: [
+        hasPermission('ver clientes') && {
+        label: 'Clientes',
+        icon: 'pi pi-fw pi-users',
+        to: '/clientes'
+        },
+
+        // hasPermission('ver tipos_clientes') && {
+        //   label: 'Tipo de Clientes',
+        //   icon: 'pi pi-fw pi-id-card',
+        //   to: '/tipo_clientes'
+        // },
+
+    ].filter(Boolean) as MenuItem[],
+    },
+    {
         label: 'Usuarios y Seguridad',
         icon: 'pi pi-fw pi-lock',
         items: [

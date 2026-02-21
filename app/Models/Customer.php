@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+//use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Customer extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'lastname',
+        'email',
+        'phone',
+        'codigo',
+        'client_type_id',
+        'state',
+    ];
+
+    protected $casts = [
+        'state' => 'boolean',
+    ];
+
+    public function clienteType(): BelongsTo{
+        return $this->belongsTo(ClientType::class,'client_type_id','id');
+    }
+    /*public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'customer_id');
+    }
+    public function tieneRelaciones(): bool
+    {
+        return $this->reservations()->exists();
+    }*/
+}
